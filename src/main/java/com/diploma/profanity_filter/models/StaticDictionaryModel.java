@@ -1,7 +1,5 @@
 package com.diploma.profanity_filter.models;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.ToString;
 import org.apache.commons.collections4.MultiValuedMap;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
