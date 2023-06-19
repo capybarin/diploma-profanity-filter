@@ -11,14 +11,19 @@ import java.util.List;
 public class TextProcessor {
 
     private void generateWordVariations(String word, String currentWord, int index){
+        //System.out.println("Word: "+word +"\nCurrent Word: "+currentWord + "\nIndex: "+index + "\nWord Length: "+word.length());
         if (index == word.length()){
-            System.out.println(word);
+            System.out.println(currentWord);
 
             return;
         }
 
         char currentLetter = word.charAt(index);
-        System.out.println(StaticDictionaryModel.visuallySimilarCharacters.get(String.valueOf(currentLetter)).toArray().length);
+        if (!StaticDictionaryModel.visuallySimilarCharacters.get(String.valueOf(currentLetter)).isEmpty()) {
+            for (String letter : StaticDictionaryModel.visuallySimilarCharacters.get(String.valueOf(currentLetter))) {
+                generateWordVariations(word, currentWord + letter, index + 1);
+            }
+        } else generateWordVariations(word, currentWord + currentLetter, index + 1);
 
     }
     public void processTranscribeWord(InputModel inputModel){
