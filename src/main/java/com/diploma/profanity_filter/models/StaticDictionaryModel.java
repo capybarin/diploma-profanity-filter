@@ -41,6 +41,7 @@ public class StaticDictionaryModel implements ApplicationListener<ApplicationRea
         //straight load
         visuallySimilarCharacters.put("e", "c");
         visuallySimilarCharacters.put("i", "j");
+        visuallySimilarCharacters.put("i", "l");
         visuallySimilarCharacters.put("g", "q");
         visuallySimilarCharacters.put("v", "w");
         visuallySimilarCharacters.put("o", "u");
@@ -49,6 +50,7 @@ public class StaticDictionaryModel implements ApplicationListener<ApplicationRea
         //reverse load
         visuallySimilarCharacters.put("c", "e");
         visuallySimilarCharacters.put("j", "i");
+        visuallySimilarCharacters.put("l", "i");
         visuallySimilarCharacters.put("q", "g");
         visuallySimilarCharacters.put("w", "v");
         visuallySimilarCharacters.put("u", "o");
@@ -126,5 +128,71 @@ public class StaticDictionaryModel implements ApplicationListener<ApplicationRea
         visuallySimilarCharacters.put("8", "B");
         visuallySimilarCharacters.put("9", "R");
         visuallySimilarCharacters.put("0", "O");
+
+        //load THE WHOLE FUCKING ALPHABET
+        visuallySimilarCharacters.put("a", "a");
+        visuallySimilarCharacters.put("b", "b");
+        visuallySimilarCharacters.put("c", "c");
+        visuallySimilarCharacters.put("d", "d");
+        visuallySimilarCharacters.put("e", "e");
+        visuallySimilarCharacters.put("f", "f");
+        visuallySimilarCharacters.put("g", "g");
+        visuallySimilarCharacters.put("h", "h");
+        visuallySimilarCharacters.put("i", "i");
+        visuallySimilarCharacters.put("j", "j");
+        visuallySimilarCharacters.put("k", "k");
+        visuallySimilarCharacters.put("l", "l");
+        visuallySimilarCharacters.put("m", "m");
+        visuallySimilarCharacters.put("n", "n");
+        visuallySimilarCharacters.put("o", "o");
+        visuallySimilarCharacters.put("p", "p");
+        visuallySimilarCharacters.put("q", "q");
+        visuallySimilarCharacters.put("r", "r");
+        visuallySimilarCharacters.put("s", "s");
+        visuallySimilarCharacters.put("t", "t");
+        visuallySimilarCharacters.put("u", "u");
+        visuallySimilarCharacters.put("v", "v");
+        visuallySimilarCharacters.put("w", "w");
+        visuallySimilarCharacters.put("x", "x");
+        visuallySimilarCharacters.put("y", "y");
+        visuallySimilarCharacters.put("z", "z");
+
+        visuallySimilarCharacters.put("A", "A");
+        visuallySimilarCharacters.put("B", "B");
+        visuallySimilarCharacters.put("C", "C");
+        visuallySimilarCharacters.put("D", "D");
+        visuallySimilarCharacters.put("E", "E");
+        visuallySimilarCharacters.put("F", "F");
+        visuallySimilarCharacters.put("G", "G");
+        visuallySimilarCharacters.put("H", "H");
+        visuallySimilarCharacters.put("I", "I");
+        visuallySimilarCharacters.put("J", "J");
+        visuallySimilarCharacters.put("K", "K");
+        visuallySimilarCharacters.put("L", "L");
+        visuallySimilarCharacters.put("M", "M");
+        visuallySimilarCharacters.put("N", "N");
+        visuallySimilarCharacters.put("O", "O");
+        visuallySimilarCharacters.put("P", "P");
+        visuallySimilarCharacters.put("Q", "Q");
+        visuallySimilarCharacters.put("R", "R");
+        visuallySimilarCharacters.put("S", "S");
+        visuallySimilarCharacters.put("T", "T");
+        visuallySimilarCharacters.put("U", "U");
+        visuallySimilarCharacters.put("V", "V");
+        visuallySimilarCharacters.put("W", "W");
+        visuallySimilarCharacters.put("X", "X");
+        visuallySimilarCharacters.put("Y", "Y");
+        visuallySimilarCharacters.put("Z", "Z");
+
+        /*visuallySimilarCharacters.put("1", "1");
+        visuallySimilarCharacters.put("2", "2");
+        visuallySimilarCharacters.put("3", "3");
+        visuallySimilarCharacters.put("4", "4");
+        visuallySimilarCharacters.put("5", "5");
+        visuallySimilarCharacters.put("6", "6");
+        visuallySimilarCharacters.put("7", "7");
+        visuallySimilarCharacters.put("8", "8");
+        visuallySimilarCharacters.put("9", "9");
+        visuallySimilarCharacters.put("0", "0");*/
     }
 }

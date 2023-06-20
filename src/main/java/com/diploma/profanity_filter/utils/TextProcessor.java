@@ -2,18 +2,13 @@ package com.diploma.profanity_filter.utils;
 
 import com.diploma.profanity_filter.models.InputModel;
 import com.diploma.profanity_filter.models.StaticDictionaryModel;
-import org.apache.commons.collections4.MultiValuedMap;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class TextProcessor {
 
     private void generateWordVariations(String word, String currentWord, int index){
-        //System.out.println("Word: "+word +"\nCurrent Word: "+currentWord + "\nIndex: "+index + "\nWord Length: "+word.length());
         if (index == word.length()){
-            System.out.println(currentWord);
+            System.out.println("current word: "+currentWord + " is in list? " + StaticDictionaryModel.globalDictionary.contains(currentWord.toLowerCase()));
 
             return;
         }
@@ -26,10 +21,16 @@ public class TextProcessor {
         } else generateWordVariations(word, currentWord + currentLetter, index + 1);
 
     }
+
     public void processTranscribeWord(InputModel inputModel){
-        List<String> possibleWords = new ArrayList<>();
-        int charIter = 0;
-        generateWordVariations(inputModel.getText(), "", 0);
+        String[] wordsOfText = inputModel.getText().split("\\s+"); //splitting is done no matter how many spaces are between words
+        for (String word: wordsOfText) {
+            if (StaticDictionaryModel.globalDictionary.contains(word.toLowerCase())) {
+                System.out.println("word in list "+word);
+            } else {generateWordVariations(word, "", 0);}
+        }
+
+
         /*for (char c: inputModel.getText().toCharArray()) {
             System.out.println(c + ": "+StaticDictionaryModel.visuallySimilarCharacters.get(String.valueOf(c)).toArray().length);
             for (int i = 0; i < StaticDictionaryModel.visuallySimilarCharacters.get(String.valueOf(c)).toArray().length; i++) {
