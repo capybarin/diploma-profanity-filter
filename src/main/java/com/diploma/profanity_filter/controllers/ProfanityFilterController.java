@@ -1,8 +1,6 @@
 package com.diploma.profanity_filter.controllers;
 
 import com.diploma.profanity_filter.models.InputModel;
-import com.diploma.profanity_filter.models.StaticDictionaryModel;
-import com.diploma.profanity_filter.utils.ModelValidator;
 import com.diploma.profanity_filter.utils.TextProcessor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;

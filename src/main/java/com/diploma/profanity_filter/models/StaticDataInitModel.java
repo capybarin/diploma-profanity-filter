@@ -18,7 +18,7 @@ import java.util.List;
 
 @ToString
 @Component
-public class StaticDictionaryModel implements ApplicationListener<ApplicationReadyEvent> {
+public class StaticDataInitModel implements ApplicationListener<ApplicationReadyEvent> {
 
 
     public static List<String> globalDictionary = new ArrayList<>();

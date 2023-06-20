@@ -1,21 +1,21 @@
 package com.diploma.profanity_filter.utils;
 
 import com.diploma.profanity_filter.models.InputModel;
-import com.diploma.profanity_filter.models.StaticDictionaryModel;
+import com.diploma.profanity_filter.models.StaticDataInitModel;
 
 
 public class TextProcessor {
 
     private void generateWordVariations(String word, String currentWord, int index){
         if (index == word.length()){
-            System.out.println("current word: "+currentWord + " is in list? " + StaticDictionaryModel.globalDictionary.contains(currentWord.toLowerCase()));
+            System.out.println("current word: "+currentWord + " is in list? " + StaticDataInitModel.globalDictionary.contains(currentWord.toLowerCase()));
 
             return;
         }
 
         char currentLetter = word.charAt(index);
-        if (!StaticDictionaryModel.visuallySimilarCharacters.get(String.valueOf(currentLetter)).isEmpty()) {
-            for (String letter : StaticDictionaryModel.visuallySimilarCharacters.get(String.valueOf(currentLetter))) {
+        if (!StaticDataInitModel.visuallySimilarCharacters.get(String.valueOf(currentLetter)).isEmpty()) {
+            for (String letter : StaticDataInitModel.visuallySimilarCharacters.get(String.valueOf(currentLetter))) {
                 generateWordVariations(word, currentWord + letter, index + 1);
             }
         } else generateWordVariations(word, currentWord + currentLetter, index + 1);
@@ -25,7 +25,7 @@ public class TextProcessor {
     public void processTranscribeWord(InputModel inputModel){
         String[] wordsOfText = inputModel.getText().split("\\s+"); //splitting is done no matter how many spaces are between words
         for (String word: wordsOfText) {
-            if (StaticDictionaryModel.globalDictionary.contains(word.toLowerCase())) {
+            if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase())) {
                 System.out.println("word in list "+word);
             } else {generateWordVariations(word, "", 0);}
         }
