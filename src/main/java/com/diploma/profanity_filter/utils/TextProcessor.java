@@ -2,6 +2,7 @@ package com.diploma.profanity_filter.utils;
 
 import com.diploma.profanity_filter.models.InputModel;
 import com.diploma.profanity_filter.models.StaticDataInitModel;
+import org.atteo.evo.inflector.English;
 
 
 public class TextProcessor {
@@ -25,6 +26,8 @@ public class TextProcessor {
     public void processTranscribeWord(InputModel inputModel){
         String[] wordsOfText = inputModel.getText().split("\\s+"); //splitting is done no matter how many spaces are between words
         for (String word: wordsOfText) {
+            System.out.println(English.plural(word));
+
             if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase())) {
                 System.out.println("word in list "+word);
             } else {generateWordVariations(word, "", 0);}
