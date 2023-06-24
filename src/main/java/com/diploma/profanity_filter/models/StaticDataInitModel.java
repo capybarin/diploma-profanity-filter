@@ -60,6 +60,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         //lowerToNumber
         //straight load
         visuallySimilarCharacters.put("l", "1");
+        visuallySimilarCharacters.put("i", "1");
         visuallySimilarCharacters.put("e", "3");
         visuallySimilarCharacters.put("a", "4");
         visuallySimilarCharacters.put("b", "6");
@@ -68,6 +69,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("o", "0");
         //reverse load
         visuallySimilarCharacters.put("1", "l");
+        visuallySimilarCharacters.put("1", "i");
         visuallySimilarCharacters.put("3", "e");
         visuallySimilarCharacters.put("4", "a");
         visuallySimilarCharacters.put("6", "b");

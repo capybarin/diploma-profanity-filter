@@ -9,7 +9,7 @@ public class TextProcessor {
 
     private void generateWordVariations(String word, String currentWord, int index){
         if (index == word.length()){
-            System.out.println("current word: "+currentWord + " is in list? " + StaticDataInitModel.globalDictionary.contains(currentWord.toLowerCase()));
+            System.out.println(PluralsSingulars.singularize(currentWord));
 
             return;
         }
@@ -26,11 +26,9 @@ public class TextProcessor {
     public void processTranscribeWord(InputModel inputModel){
         String[] wordsOfText = inputModel.getText().split("\\s+"); //splitting is done no matter how many spaces are between words
         for (String word: wordsOfText) {
-            System.out.println(English.plural(word));
-
-            if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase())) {
+            if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase()) || StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(word.toLowerCase()))) {
                 System.out.println("word in list "+word);
-            } else {generateWordVariations(word, "", 0);}
+            } else {generateWordVariations(word.toLowerCase(), "", 0);}
         }
 
 
