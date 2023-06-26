@@ -2,42 +2,58 @@ package com.diploma.profanity_filter.utils;
 
 import com.diploma.profanity_filter.models.InputModel;
 import com.diploma.profanity_filter.models.StaticDataInitModel;
-import org.atteo.evo.inflector.English;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TextProcessor {
 
-    private void generateWordVariations(String word, String currentWord, int index){
-        if (index == word.length()){
-            System.out.println(PluralsSingulars.singularize(currentWord));
+    public List<String> generateWordVariations(String word){
+        List<String> variations = new ArrayList<>();
+        generateWordVariationsHelper(word.toLowerCase(), "", 0, variations);
 
+        return variations;
+    }
+    private void generateWordVariationsHelper(String word, String currentWord, int index, List<String> variations){
+        if (index == word.length()){
+            if (StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(currentWord))){
+                variations.add(currentWord);
+                return;
+            }
             return;
         }
 
         char currentLetter = word.charAt(index);
         if (!StaticDataInitModel.visuallySimilarCharacters.get(String.valueOf(currentLetter)).isEmpty()) {
             for (String letter : StaticDataInitModel.visuallySimilarCharacters.get(String.valueOf(currentLetter))) {
-                generateWordVariations(word, currentWord + letter, index + 1);
+                generateWordVariationsHelper(word, currentWord + letter, index + 1, variations);
             }
-        } else generateWordVariations(word, currentWord + currentLetter, index + 1);
+        } else generateWordVariationsHelper(word, currentWord + currentLetter, index + 1, variations);
 
     }
 
     public void processTranscribeWord(InputModel inputModel){
+
         String[] wordsOfText = inputModel.getText().split("\\s+"); //splitting is done no matter how many spaces are between words
+        List<String> variations;
+        List<String> wordsToBeReplaced = new ArrayList<>();
+
         for (String word: wordsOfText) {
             if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase()) || StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(word.toLowerCase()))) {
-                System.out.println("word in list "+word);
-            } else {generateWordVariations(word.toLowerCase(), "", 0);}
+                wordsToBeReplaced.add(word);
+            } else {
+                variations = generateWordVariations(word);
+                if (!variations.isEmpty()){
+                    wordsToBeReplaced.add(word);
+                } else continue;
+            }
         }
 
+        for (String word : wordsToBeReplaced) {
+            inputModel.setText(inputModel.getText().replaceAll(word, StringUtils.repeat("*", word.length())));
+        }
 
-        /*for (char c: inputModel.getText().toCharArray()) {
-            System.out.println(c + ": "+StaticDictionaryModel.visuallySimilarCharacters.get(String.valueOf(c)).toArray().length);
-            for (int i = 0; i < StaticDictionaryModel.visuallySimilarCharacters.get(String.valueOf(c)).toArray().length; i++) {
-                System.out.println("   "+ StaticDictionaryModel.visuallySimilarCharacters.get(String.valueOf(c)).toArray()[i]);
-            }
-            charIter++;
-        }*/
     }
 }

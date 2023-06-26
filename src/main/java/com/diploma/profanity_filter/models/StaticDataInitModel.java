@@ -67,6 +67,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("g", "9");
         visuallySimilarCharacters.put("q", "9");
         visuallySimilarCharacters.put("o", "0");
+        visuallySimilarCharacters.put("u", "0");
         //reverse load
         visuallySimilarCharacters.put("1", "l");
         visuallySimilarCharacters.put("1", "i");
@@ -76,6 +77,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("9", "g");
         visuallySimilarCharacters.put("9", "q");
         visuallySimilarCharacters.put("0", "o");
+        visuallySimilarCharacters.put("0", "u");
 
         //lowerToUpper
         //straight load

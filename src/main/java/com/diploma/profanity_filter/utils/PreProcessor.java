@@ -1,6 +1,7 @@
 package com.diploma.profanity_filter.utils;
 
 import com.diploma.profanity_filter.models.InputModel;
+import com.diploma.profanity_filter.models.StaticDataInitModel;
 
 import java.util.List;
 
@@ -12,9 +13,10 @@ public class PreProcessor {
         return resultText;
     }
 
-    public List<String> appendCustomDictionary (InputModel inputModel){
-
-        return null;
+    public void appendCustomDictionary(InputModel inputModel){
+        if (!inputModel.getAdditionalDictionary().isEmpty()){
+            StaticDataInitModel.globalDictionary.addAll(inputModel.getAdditionalDictionary());
+        }
     }
 
 }
