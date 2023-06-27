@@ -1,6 +1,7 @@
 package com.diploma.profanity_filter.controllers;
 
 import com.diploma.profanity_filter.models.InputModel;
+import com.diploma.profanity_filter.models.OutputModel;
 import com.diploma.profanity_filter.utils.ModelValidator;
 import com.diploma.profanity_filter.utils.PreProcessor;
 import com.diploma.profanity_filter.utils.TextProcessor;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProfanityFilterController {
 
     @PostMapping(path = "/text/filter", consumes = "application/json", produces = "application/json")
-    public InputModel test(@RequestBody InputModel inputModel) {
+    public OutputModel transformRequest(@RequestBody InputModel inputModel) {
         ModelValidator modelValidator = new ModelValidator();
         inputModel = modelValidator.validateInputModel(inputModel);
 
@@ -23,7 +24,7 @@ public class ProfanityFilterController {
         preProcessor.appendCustomDictionary(inputModel);
 
         TextProcessor textProcessor = new TextProcessor();
-        textProcessor.processTranscribeWord(inputModel);
-        return inputModel;
+
+        return textProcessor.processTranscribeWord(inputModel);
     }
 }

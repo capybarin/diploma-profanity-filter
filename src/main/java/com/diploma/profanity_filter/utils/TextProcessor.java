@@ -1,16 +1,19 @@
 package com.diploma.profanity_filter.utils;
 
 import com.diploma.profanity_filter.models.InputModel;
+import com.diploma.profanity_filter.models.OutputModel;
 import com.diploma.profanity_filter.models.StaticDataInitModel;
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class TextProcessor {
 
-    public List<String> generateWordVariations(String word){
+    private List<String> generateWordVariations(String word){
         List<String> variations = new ArrayList<>();
         generateWordVariationsHelper(word.toLowerCase(), "", 0, variations);
 
@@ -18,7 +21,8 @@ public class TextProcessor {
     }
     private void generateWordVariationsHelper(String word, String currentWord, int index, List<String> variations){
         if (index == word.length()){
-            if (StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(currentWord))){
+            if (StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(currentWord)) ||
+                    StaticDataInitModel.customAdditionalDictionary.contains(PluralsSingulars.singularize(currentWord))){
                 variations.add(currentWord);
                 return;
             }
@@ -34,26 +38,37 @@ public class TextProcessor {
 
     }
 
-    public void processTranscribeWord(InputModel inputModel){
+    public OutputModel processTranscribeWord(InputModel inputModel){
+        OutputModel outputModel = new OutputModel();
 
         String[] wordsOfText = inputModel.getText().split("\\s+"); //splitting is done no matter how many spaces are between words
         List<String> variations;
         List<String> wordsToBeReplaced = new ArrayList<>();
 
         for (String word: wordsOfText) {
-            if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase()) || StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(word.toLowerCase()))) {
+            if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase()) ||
+                    StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(word.toLowerCase())) ||
+                    StaticDataInitModel.customAdditionalDictionary.contains(word)) {
                 wordsToBeReplaced.add(word);
             } else {
                 variations = generateWordVariations(word);
                 if (!variations.isEmpty()){
                     wordsToBeReplaced.add(word);
-                } else continue;
+                }
             }
         }
 
         for (String word : wordsToBeReplaced) {
-            inputModel.setText(inputModel.getText().replaceAll(word, StringUtils.repeat("*", word.length())));
+            System.out.println(word);
+            inputModel.setText(inputModel.getText().replaceAll("\\b"+word+"\\b", StringUtils.repeat("*", word.length())));
         }
 
+        StaticDataInitModel.customAdditionalDictionary.clear();
+
+        outputModel.setTextCensored(inputModel.getText());
+        outputModel.setDate(LocalDateTime.now());
+        outputModel.setUuid(UUID.randomUUID());
+
+        return outputModel;
     }
 }

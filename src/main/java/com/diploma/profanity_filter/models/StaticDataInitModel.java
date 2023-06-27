@@ -22,6 +22,8 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
 
 
     public static List<String> globalDictionary = new ArrayList<>();
+
+    public static List<String> customAdditionalDictionary = new ArrayList<>();
     public static MultiValuedMap<String, String> visuallySimilarCharacters = new HashSetValuedHashMap<>();
 
 
