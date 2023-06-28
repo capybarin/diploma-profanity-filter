@@ -66,6 +66,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("e", "3");
         visuallySimilarCharacters.put("a", "4");
         visuallySimilarCharacters.put("b", "6");
+        visuallySimilarCharacters.put("t", "7");
         visuallySimilarCharacters.put("g", "9");
         visuallySimilarCharacters.put("q", "9");
         visuallySimilarCharacters.put("o", "0");
@@ -76,6 +77,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("3", "e");
         visuallySimilarCharacters.put("4", "a");
         visuallySimilarCharacters.put("6", "b");
+        visuallySimilarCharacters.put("7", "t");
         visuallySimilarCharacters.put("9", "g");
         visuallySimilarCharacters.put("9", "q");
         visuallySimilarCharacters.put("0", "o");
@@ -123,6 +125,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("B", "8");
         visuallySimilarCharacters.put("R", "9");
         visuallySimilarCharacters.put("O", "0");
+        visuallySimilarCharacters.put("U", "0");
         //reverse load
         visuallySimilarCharacters.put("1", "I");
         visuallySimilarCharacters.put("2", "Z");
@@ -134,6 +137,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("8", "B");
         visuallySimilarCharacters.put("9", "R");
         visuallySimilarCharacters.put("0", "O");
+        visuallySimilarCharacters.put("0", "U");
 
         //load THE WHOLE FUCKING ALPHABET
         visuallySimilarCharacters.put("a", "a");

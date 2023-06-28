@@ -46,6 +46,7 @@ public class TextProcessor {
         List<String> wordsToBeReplaced = new ArrayList<>();
 
         for (String word: wordsOfText) {
+            System.out.println(word);
             if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase()) ||
                     StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(word.toLowerCase())) ||
                     StaticDataInitModel.customAdditionalDictionary.contains(word)) {
