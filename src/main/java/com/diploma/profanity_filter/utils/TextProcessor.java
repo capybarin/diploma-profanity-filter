@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,12 +42,12 @@ public class TextProcessor {
     public OutputModel processTranscribeWord(InputModel inputModel){
         OutputModel outputModel = new OutputModel();
 
-        String[] wordsOfText = inputModel.getText().split("\\s+"); //splitting is done no matter how many spaces are between words
+        String[] wordsOfText = inputModel.getText().split("[-|\\.| |_|,|+|;|:]+"); //splitting is done no matter how many spaces are between words
+        System.out.println(Arrays.toString(wordsOfText));
         List<String> variations;
         List<String> wordsToBeReplaced = new ArrayList<>();
 
         for (String word: wordsOfText) {
-            System.out.println(word);
             if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase()) ||
                     StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(word.toLowerCase())) ||
                     StaticDataInitModel.customAdditionalDictionary.contains(word)) {
@@ -61,7 +62,8 @@ public class TextProcessor {
 
         for (String word : wordsToBeReplaced) {
             System.out.println(word);
-            inputModel.setText(inputModel.getText().replaceAll("\\b"+word+"\\b", StringUtils.repeat("*", word.length())));
+            //inputModel.setText(inputModel.getText().replaceAll("\\b"+word+"\\b", StringUtils.repeat("*", word.length())));
+            inputModel.setText(inputModel.getText().replaceAll(word, StringUtils.repeat("*", word.length())));
         }
 
         StaticDataInitModel.customAdditionalDictionary.clear();
