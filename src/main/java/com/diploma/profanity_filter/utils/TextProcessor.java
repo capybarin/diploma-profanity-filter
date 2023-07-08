@@ -93,7 +93,7 @@ public class TextProcessor {
 
                 //resultTextToString = resultTextToString.replaceAll("(?<!\\S)"+word+"(?!\\S)", StringUtils.repeat("*", word.length()));
                 resultTextToString = resultTextToString.replaceAll("\\b" + word + "\\b", StringUtils.repeat("*", word.length()));
-            } else continue;
+            }
         }
         StaticDataInitModel.customAdditionalDictionary.clear();
 
