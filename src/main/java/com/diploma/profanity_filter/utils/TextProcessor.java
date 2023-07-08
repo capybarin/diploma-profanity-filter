@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
@@ -73,16 +75,25 @@ public class TextProcessor {
 
         String resultTextToString = resultText.toString();
         for (String word : StaticDataInitModel.customAdditionalDictionary) {
-            FoundProfanityDictModel foundProfanityDictModel = new FoundProfanityDictModel();
-            foundProfanityDictModel.setOriginalWord(word);
-            foundProfanityDictModel.setMatch(word);
-            foundProfanityDictModel.setType("custom");
-            foundProfanityDictModel.setStartPos(resultText.indexOf(word));
-            foundProfanityDictModel.setEndPos(resultText.indexOf(word)+word.length());
-            outputModel.getFoundProfanity().add(foundProfanityDictModel);
+            if (Arrays.stream(wordsOfText).anyMatch(word::equals)) {
+                FoundProfanityDictModel foundProfanityDictModel = new FoundProfanityDictModel();
 
-            //resultTextToString = resultTextToString.replaceAll("(?<!\\S)"+word+"(?!\\S)", StringUtils.repeat("*", word.length()));
-            resultTextToString = resultTextToString.replaceAll("\\b"+word+"\\b", StringUtils.repeat("*", word.length()));
+                Pattern wordInText = Pattern.compile("\\b" + word + "\\b");
+                Matcher matcherWordToString = wordInText.matcher(resultText);
+                if (matcherWordToString.find()) {
+                    foundProfanityDictModel.setStartPos(matcherWordToString.start());
+                    foundProfanityDictModel.setEndPos(matcherWordToString.start() + word.length());
+                }
+
+
+                foundProfanityDictModel.setOriginalWord(word);
+                foundProfanityDictModel.setMatch(word);
+                foundProfanityDictModel.setType("custom");
+                outputModel.getFoundProfanity().add(foundProfanityDictModel);
+
+                //resultTextToString = resultTextToString.replaceAll("(?<!\\S)"+word+"(?!\\S)", StringUtils.repeat("*", word.length()));
+                resultTextToString = resultTextToString.replaceAll("\\b" + word + "\\b", StringUtils.repeat("*", word.length()));
+            } else continue;
         }
         StaticDataInitModel.customAdditionalDictionary.clear();
 
