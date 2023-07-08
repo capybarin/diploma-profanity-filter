@@ -47,15 +47,22 @@ public class TextProcessor {
 
         List<String> variations;
         List<String> wordsToBeReplacedFoundInGlobalDict = new ArrayList<>();
+        Map<Integer, String> wordPositionToMatchMap = new HashMap<>();
+
+        int wordIndex = -1;
 
         for (String word: wordsOfText) {
             if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase()) ||
                     StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(word.toLowerCase()))) {
 
+                wordIndex = inputModel.getText().indexOf(word, wordIndex+1);
+                wordPositionToMatchMap.put(wordIndex, word);
                 wordsToBeReplacedFoundInGlobalDict.add(word);
             } else {
                 variations = generateWordVariations(word);
                 if (!variations.isEmpty()){
+                    wordIndex = inputModel.getText().indexOf(word, wordIndex+1);
+                    wordPositionToMatchMap.put(wordIndex, variations.get(0));
                     wordsToBeReplacedFoundInGlobalDict.add(word);
                 }
             }
@@ -65,7 +72,8 @@ public class TextProcessor {
         for (String word : wordsToBeReplacedFoundInGlobalDict) {
             FoundProfanityDictModel foundProfanityDictModel = new FoundProfanityDictModel();
             foundProfanityDictModel.setOriginalWord(word);
-            foundProfanityDictModel.setType("no-type");
+            foundProfanityDictModel.setMatch(wordPositionToMatchMap.get(resultText.indexOf(word)));
+            foundProfanityDictModel.setType("NO TYPE CURRENTLY");
             foundProfanityDictModel.setStartPos(resultText.indexOf(word));
             foundProfanityDictModel.setEndPos(resultText.indexOf(word)+word.length());
             outputModel.getFoundProfanity().add(foundProfanityDictModel);
@@ -84,7 +92,6 @@ public class TextProcessor {
                     foundProfanityDictModel.setStartPos(matcherWordToString.start());
                     foundProfanityDictModel.setEndPos(matcherWordToString.start() + word.length());
                 }
-
 
                 foundProfanityDictModel.setOriginalWord(word);
                 foundProfanityDictModel.setMatch(word);
