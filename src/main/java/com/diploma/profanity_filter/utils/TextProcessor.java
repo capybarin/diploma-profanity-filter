@@ -1,15 +1,14 @@
 package com.diploma.profanity_filter.utils;
 
+import com.diploma.profanity_filter.models.FoundProfanityDictModel;
 import com.diploma.profanity_filter.models.InputModel;
 import com.diploma.profanity_filter.models.OutputModel;
 import com.diploma.profanity_filter.models.StaticDataInitModel;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class TextProcessor {
@@ -22,8 +21,7 @@ public class TextProcessor {
     }
     private void generateWordVariationsHelper(String word, String currentWord, int index, List<String> variations){
         if (index == word.length()){
-            if (StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(currentWord)) ||
-                    StaticDataInitModel.customAdditionalDictionary.contains(PluralsSingulars.singularize(currentWord))){
+            if (StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(currentWord))){
                 variations.add(currentWord);
                 return;
             }
@@ -39,36 +37,58 @@ public class TextProcessor {
 
     }
 
+
     public OutputModel processTranscribeWord(InputModel inputModel){
         OutputModel outputModel = new OutputModel();
 
         String[] wordsOfText = inputModel.getText().split("[-|\\.| |_|,|+|;|:]+"); //splitting is done no matter how many spaces are between words
-        System.out.println(Arrays.toString(wordsOfText));
+
         List<String> variations;
-        List<String> wordsToBeReplaced = new ArrayList<>();
+        List<String> wordsToBeReplacedFoundInGlobalDict = new ArrayList<>();
 
         for (String word: wordsOfText) {
             if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase()) ||
-                    StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(word.toLowerCase())) ||
-                    StaticDataInitModel.customAdditionalDictionary.contains(word)) {
-                wordsToBeReplaced.add(word);
+                    StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(word.toLowerCase()))) {
+
+                wordsToBeReplacedFoundInGlobalDict.add(word);
             } else {
                 variations = generateWordVariations(word);
                 if (!variations.isEmpty()){
-                    wordsToBeReplaced.add(word);
+                    wordsToBeReplacedFoundInGlobalDict.add(word);
                 }
             }
         }
 
-        for (String word : wordsToBeReplaced) {
-            System.out.println(word);
-            //inputModel.setText(inputModel.getText().replaceAll("\\b"+word+"\\b", StringUtils.repeat("*", word.length())));
-            inputModel.setText(inputModel.getText().replaceAll(word, StringUtils.repeat("*", word.length())));
+        StringBuffer resultText = new StringBuffer(inputModel.getText());
+        for (String word : wordsToBeReplacedFoundInGlobalDict) {
+            FoundProfanityDictModel foundProfanityDictModel = new FoundProfanityDictModel();
+            foundProfanityDictModel.setOriginalWord(word);
+            foundProfanityDictModel.setType("no-type");
+            foundProfanityDictModel.setStartPos(resultText.indexOf(word));
+            foundProfanityDictModel.setEndPos(resultText.indexOf(word)+word.length());
+            outputModel.getFoundProfanity().add(foundProfanityDictModel);
+
+            resultText = resultText.replace(resultText.indexOf(word), resultText.indexOf(word)+word.length(), StringUtils.repeat("*", word.length()));
         }
 
+        String resultTextToString = resultText.toString();
+        for (String word : StaticDataInitModel.customAdditionalDictionary) {
+            FoundProfanityDictModel foundProfanityDictModel = new FoundProfanityDictModel();
+            foundProfanityDictModel.setOriginalWord(word);
+            foundProfanityDictModel.setMatch(word);
+            foundProfanityDictModel.setType("custom");
+            foundProfanityDictModel.setStartPos(resultText.indexOf(word));
+            foundProfanityDictModel.setEndPos(resultText.indexOf(word)+word.length());
+            outputModel.getFoundProfanity().add(foundProfanityDictModel);
+
+            //resultTextToString = resultTextToString.replaceAll("(?<!\\S)"+word+"(?!\\S)", StringUtils.repeat("*", word.length()));
+            resultTextToString = resultTextToString.replaceAll("\\b"+word+"\\b", StringUtils.repeat("*", word.length()));
+        }
         StaticDataInitModel.customAdditionalDictionary.clear();
 
-        outputModel.setTextCensored(inputModel.getText());
+        outputModel.setFoundProfanity(outputModel.getFoundProfanity().stream().sorted(Comparator.comparing(FoundProfanityDictModel::getStartPos)).collect(Collectors.toList()));
+        outputModel.setFound(wordsToBeReplacedFoundInGlobalDict.size());
+        outputModel.setTextCensoredSuggestion(resultTextToString);
         outputModel.setDate(LocalDateTime.now());
         outputModel.setUuid(UUID.randomUUID());
 

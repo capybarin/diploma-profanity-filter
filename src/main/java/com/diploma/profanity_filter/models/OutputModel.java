@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @ToString
@@ -20,5 +22,13 @@ public class OutputModel {
 
     @Getter
     @Setter
-    private String textCensored;
+    private String textCensoredSuggestion;
+
+    @Getter
+    @Setter
+    private int found = 0;
+
+    @Getter
+    @Setter
+    private List<FoundProfanityDictModel> foundProfanity = new ArrayList<>();
 }
