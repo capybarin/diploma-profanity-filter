@@ -99,7 +99,7 @@ public class TextProcessor {
 
         outputModel.setAdditionalDictionary(inputModel.getAdditionalDictionary());
         outputModel.setFoundProfanity(outputModel.getFoundProfanity().stream().sorted(Comparator.comparing(FoundProfanityDictModel::getStartPos)).collect(Collectors.toList()));
-        outputModel.setFound(wordsToBeReplacedFoundInGlobalDict.size());
+        outputModel.setFound(outputModel.getFoundProfanity().size());
         outputModel.setTextCensoredSuggestion(resultTextToString);
         outputModel.setDate(LocalDateTime.now());
         outputModel.setUuid(UUID.randomUUID());
