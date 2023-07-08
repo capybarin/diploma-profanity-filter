@@ -97,6 +97,7 @@ public class TextProcessor {
         }
         StaticDataInitModel.customAdditionalDictionary.clear();
 
+        outputModel.setAdditionalDictionary(inputModel.getAdditionalDictionary());
         outputModel.setFoundProfanity(outputModel.getFoundProfanity().stream().sorted(Comparator.comparing(FoundProfanityDictModel::getStartPos)).collect(Collectors.toList()));
         outputModel.setFound(wordsToBeReplacedFoundInGlobalDict.size());
         outputModel.setTextCensoredSuggestion(resultTextToString);

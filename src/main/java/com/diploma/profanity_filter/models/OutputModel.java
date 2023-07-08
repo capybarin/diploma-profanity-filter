@@ -31,4 +31,8 @@ public class OutputModel {
     @Getter
     @Setter
     private List<FoundProfanityDictModel> foundProfanity = new ArrayList<>();
+
+    @Getter
+    @Setter
+    private List<String> additionalDictionary = new ArrayList<>();
 }
