@@ -20,9 +20,10 @@ import java.util.List;
 @Component
 public class StaticDataInitModel implements ApplicationListener<ApplicationReadyEvent> {
 
-
+    public static List<String> insultDictionary = new ArrayList<>();
+    public static List<String> adultDictionary = new ArrayList<>();
+    public static List<String> intoleranceDictionary = new ArrayList<>();
     public static List<String> globalDictionary = new ArrayList<>();
-
     public static List<String> customAdditionalDictionary = new ArrayList<>();
     public static MultiValuedMap<String, String> visuallySimilarCharacters = new HashSetValuedHashMap<>();
 
@@ -34,8 +35,28 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         JSONParser parser = new JSONParser();
         Object filePath = parser.parse(new FileReader("src/main/resources/profanity_dictionary_base_en_json.json"));
         JSONArray dictArray = new JSONObject(filePath.toString()).getJSONArray("dictionary");
+        JSONArray insultDict = new JSONObject(filePath.toString()).getJSONArray("insult");
+        JSONArray adultDict = new JSONObject(filePath.toString()).getJSONArray("adult");
+        JSONArray intoleranceDict = new JSONObject(filePath.toString()).getJSONArray("intolerance");
+
+        dictArray.putAll(insultDict);
+        dictArray.putAll(adultDict);
+        dictArray.putAll(intoleranceDict);
+
         for (int i=0; i<dictArray.length(); i++) {
             globalDictionary.add(dictArray.getString(i));
+        }
+
+        for (int i=0; i<adultDict.length(); i++) {
+            adultDictionary.add(adultDict.getString(i));
+        }
+
+        for (int i=0; i<intoleranceDict.length(); i++) {
+            intoleranceDictionary.add(intoleranceDict.getString(i));
+        }
+
+        for (int i=0; i<insultDict.length(); i++) {
+            insultDictionary.add(insultDict.getString(i));
         }
 
         //load charactersVisuallySimilar
