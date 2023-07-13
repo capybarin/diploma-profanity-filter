@@ -10,7 +10,7 @@ public class ModelValidator {
         if (inputModel.getText() == null || inputModel.getText().isBlank()){
             throw new ParamDoesNotExist("Text");
         } else if (inputModel.getText().length() > 160){
-            throw  new TextException("is too long.");
+            throw  new TextException("is too long. Text length should not be greater then 160 characters.");
         }
 
         return inputModel;
