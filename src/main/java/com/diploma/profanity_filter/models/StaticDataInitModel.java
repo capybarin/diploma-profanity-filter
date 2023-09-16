@@ -3,6 +3,7 @@ package com.diploma.profanity_filter.models;
 import lombok.SneakyThrows;
 import lombok.ToString;
 import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,7 +26,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
     public static List<String> intoleranceDictionary = new ArrayList<>();
     public static List<String> globalDictionary = new ArrayList<>();
     public static List<String> customAdditionalDictionary = new ArrayList<>();
-    public static MultiValuedMap<String, String> visuallySimilarCharacters = new HashSetValuedHashMap<>();
+    public static MultiValuedMap<String, String> visuallySimilarCharacters = new ArrayListValuedHashMap<>();
 
 
     @SneakyThrows
@@ -62,27 +63,33 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         //load charactersVisuallySimilar
         //lowerToLower
         //straight load
-        visuallySimilarCharacters.put("e", "c");
-        visuallySimilarCharacters.put("i", "j");
-        visuallySimilarCharacters.put("i", "l");
-        visuallySimilarCharacters.put("g", "q");
-        visuallySimilarCharacters.put("v", "w");
-        visuallySimilarCharacters.put("o", "u");
-        visuallySimilarCharacters.put("s", "z");
-        visuallySimilarCharacters.put("g", "b");
+        visuallySimilarCharacters.put("b", "q"); //0,386
+        visuallySimilarCharacters.put("h", "b"); //0,429
+        visuallySimilarCharacters.put("b", "p"); //0,419
+        visuallySimilarCharacters.put("e", "c"); //0,341
+        visuallySimilarCharacters.put("i", "j"); //0,339
+        visuallySimilarCharacters.put("i", "l"); //0,356
+        visuallySimilarCharacters.put("g", "q"); //0,241
+        visuallySimilarCharacters.put("v", "w"); //0,287
+        visuallySimilarCharacters.put("o", "u"); //0,269
+        visuallySimilarCharacters.put("s", "z"); //0,251
+        visuallySimilarCharacters.put("g", "b"); //0,129
         //reverse load
-        visuallySimilarCharacters.put("c", "e");
-        visuallySimilarCharacters.put("j", "i");
-        visuallySimilarCharacters.put("l", "i");
-        visuallySimilarCharacters.put("q", "g");
-        visuallySimilarCharacters.put("w", "v");
-        visuallySimilarCharacters.put("u", "o");
-        visuallySimilarCharacters.put("z", "s");
-        visuallySimilarCharacters.put("b", "g");
+        visuallySimilarCharacters.put("q", "b"); //0,386
+        visuallySimilarCharacters.put("b", "h"); //0,429
+        visuallySimilarCharacters.put("p", "b"); //0,419
+        visuallySimilarCharacters.put("c", "e"); //0,341
+        visuallySimilarCharacters.put("j", "i"); //0,339
+        visuallySimilarCharacters.put("l", "i"); //0,356
+        visuallySimilarCharacters.put("q", "g"); //0,241
+        visuallySimilarCharacters.put("w", "v"); //0,287
+        visuallySimilarCharacters.put("u", "o"); //0,269
+        visuallySimilarCharacters.put("z", "s"); //0,251
+        visuallySimilarCharacters.put("b", "g"); //0,129
 
         //lowerToNumber
         //straight load
-        visuallySimilarCharacters.put("l", "1");
+        /*visuallySimilarCharacters.put("l", "1");
         visuallySimilarCharacters.put("i", "1");
         visuallySimilarCharacters.put("e", "3");
         visuallySimilarCharacters.put("a", "4");
@@ -91,7 +98,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("g", "9");
         visuallySimilarCharacters.put("q", "9");
         visuallySimilarCharacters.put("o", "0");
-        visuallySimilarCharacters.put("u", "0");
+        visuallySimilarCharacters.put("u", "0");*/
         //reverse load
         visuallySimilarCharacters.put("1", "l");
         visuallySimilarCharacters.put("1", "i");
@@ -118,25 +125,39 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
 
         //upperToUpper
         //straight load
-        visuallySimilarCharacters.put("C", "G");
-        visuallySimilarCharacters.put("L", "I");
-        visuallySimilarCharacters.put("I", "J");
-        visuallySimilarCharacters.put("V", "W");
-        visuallySimilarCharacters.put("S", "Z");
-        visuallySimilarCharacters.put("O", "U");
-        visuallySimilarCharacters.put("G", "B");
+        visuallySimilarCharacters.put("C", "G"); //0,369
+        visuallySimilarCharacters.put("C", "O"); //0,366
+        visuallySimilarCharacters.put("D", "O"); //0,377
+        visuallySimilarCharacters.put("D", "B"); //0,384
+        visuallySimilarCharacters.put("F", "P"); //0,384
+        visuallySimilarCharacters.put("G", "O"); //0,406
+        visuallySimilarCharacters.put("H", "N"); //0,405
+        visuallySimilarCharacters.put("L", "I"); //0,244
+        visuallySimilarCharacters.put("I", "J"); //0,353
+        visuallySimilarCharacters.put("V", "W"); //0,243
+        visuallySimilarCharacters.put("V", "Y"); //0,401
+        visuallySimilarCharacters.put("S", "Z"); //0,280
+        visuallySimilarCharacters.put("O", "U"); //0,360
+        visuallySimilarCharacters.put("G", "B"); //0,325
         //reverse load
-        visuallySimilarCharacters.put("G", "C");
-        visuallySimilarCharacters.put("I", "L");
-        visuallySimilarCharacters.put("J", "I");
-        visuallySimilarCharacters.put("W", "V");
-        visuallySimilarCharacters.put("Z", "S");
-        visuallySimilarCharacters.put("U", "O");
-        visuallySimilarCharacters.put("B", "G");
+        visuallySimilarCharacters.put("G", "C"); //0,369
+        visuallySimilarCharacters.put("O", "C"); //0,366
+        visuallySimilarCharacters.put("O", "D"); //0,377
+        visuallySimilarCharacters.put("B", "D"); //0,384
+        visuallySimilarCharacters.put("P", "F"); //0,384
+        visuallySimilarCharacters.put("O", "G"); //0,406
+        visuallySimilarCharacters.put("N", "H"); //0,405
+        visuallySimilarCharacters.put("I", "L"); //0,244
+        visuallySimilarCharacters.put("J", "I"); //0,353
+        visuallySimilarCharacters.put("W", "V"); //0,243
+        visuallySimilarCharacters.put("Y", "V"); //0,401
+        visuallySimilarCharacters.put("Z", "S"); //0,280
+        visuallySimilarCharacters.put("U", "O"); //0,360
+        visuallySimilarCharacters.put("B", "G"); //0,325
 
         //upperToNumber
         //straight load
-        visuallySimilarCharacters.put("I", "1");
+        /*visuallySimilarCharacters.put("I", "1");
         visuallySimilarCharacters.put("Z", "2");
         visuallySimilarCharacters.put("E", "3");
         visuallySimilarCharacters.put("A", "4");
@@ -146,7 +167,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("B", "8");
         visuallySimilarCharacters.put("R", "9");
         visuallySimilarCharacters.put("O", "0");
-        visuallySimilarCharacters.put("U", "0");
+        visuallySimilarCharacters.put("U", "0");*/
         //reverse load
         visuallySimilarCharacters.put("1", "I");
         visuallySimilarCharacters.put("2", "Z");
@@ -215,6 +236,7 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("Y", "Y");
         visuallySimilarCharacters.put("Z", "Z");
 
+        System.out.println(visuallySimilarCharacters);
         /*visuallySimilarCharacters.put("1", "1");
         visuallySimilarCharacters.put("2", "2");
         visuallySimilarCharacters.put("3", "3");
