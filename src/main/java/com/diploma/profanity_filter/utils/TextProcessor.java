@@ -22,6 +22,7 @@ public class TextProcessor {
         return variations;
     }
     private void generateWordVariationsHelper(String word, String currentWord, int index, List<String> variations){
+        System.out.println(currentWord);
         if (index == word.length()){
             if (StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(currentWord))){
                 variations.add(currentWord);

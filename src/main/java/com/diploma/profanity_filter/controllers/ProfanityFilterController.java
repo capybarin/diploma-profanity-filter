@@ -2,9 +2,12 @@ package com.diploma.profanity_filter.controllers;
 
 import com.diploma.profanity_filter.models.InputModel;
 import com.diploma.profanity_filter.models.OutputModel;
+import com.diploma.profanity_filter.models.WordInputModel;
+import com.diploma.profanity_filter.models.WordOutputModel;
 import com.diploma.profanity_filter.utils.ModelValidator;
 import com.diploma.profanity_filter.utils.PreProcessor;
 import com.diploma.profanity_filter.utils.TextProcessor;
+import com.diploma.profanity_filter.utils.WordReplacementModelValidator;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,5 +29,16 @@ public class ProfanityFilterController {
         TextProcessor textProcessor = new TextProcessor();
 
         return textProcessor.processTranscribeWord(inputModel);
+    }
+
+
+    @PostMapping(path = "/text/words", consumes = "application/json", produces = "application/json")
+    public WordOutputModel createWordWithReplacements(@RequestBody WordInputModel wordInputModel){
+
+        WordReplacementModelValidator wordReplacementModelValidator = new WordReplacementModelValidator();
+        wordInputModel = wordReplacementModelValidator.validateInputModel(wordInputModel);
+
+
+        return null;
     }
 }
