@@ -197,7 +197,5 @@ public class StaticDataInitModel implements ApplicationListener<ApplicationReady
         visuallySimilarCharacters.put("Y", "V"); //0,401
         visuallySimilarCharacters.put("Z", "Z"); //1
         visuallySimilarCharacters.put("Z", "S"); //0,280
-
-        System.out.println(visuallySimilarCharacters);
     }
 }

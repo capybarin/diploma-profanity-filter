@@ -28,4 +28,12 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         body.put("message", e.getMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ParamTooLongException.class)
+    public ResponseEntity<Object> handleParamTooLongException(ParamTooLongException e){
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", e.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 }

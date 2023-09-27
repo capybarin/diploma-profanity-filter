@@ -12,7 +12,7 @@ public class WordReplacementModelValidator {
         if (wordInputModel.getBaseWord().length() > 15){
             throw new ParamTooLongException("baseWord");
         }
-        if (wordInputModel.getNumberOfWordsToReturn() > 10){
+        if (wordInputModel.getNumberOfWordsToReturn() > 5){
             throw new ParamTooLongException("numberOfWordsToReturn");
         }
 

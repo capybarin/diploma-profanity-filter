@@ -4,10 +4,7 @@ import com.diploma.profanity_filter.models.InputModel;
 import com.diploma.profanity_filter.models.OutputModel;
 import com.diploma.profanity_filter.models.WordInputModel;
 import com.diploma.profanity_filter.models.WordOutputModel;
-import com.diploma.profanity_filter.utils.ModelValidator;
-import com.diploma.profanity_filter.utils.PreProcessor;
-import com.diploma.profanity_filter.utils.TextProcessor;
-import com.diploma.profanity_filter.utils.WordReplacementModelValidator;
+import com.diploma.profanity_filter.utils.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +35,8 @@ public class ProfanityFilterController {
         WordReplacementModelValidator wordReplacementModelValidator = new WordReplacementModelValidator();
         wordInputModel = wordReplacementModelValidator.validateInputModel(wordInputModel);
 
+        WordsCreator wordsCreator = new WordsCreator();
 
-        return null;
+        return wordsCreator.processWordCreation(wordInputModel);
     }
 }
