@@ -28,6 +28,7 @@ public class WordsCreator {
     }
 
     public WordOutputModel processWordCreation(WordInputModel wordInputModel){
+
         WordOutputModel wordOutputModel = new WordOutputModel();
 
         int numLettersThatCanBeReplaced = 0;
