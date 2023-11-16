@@ -11,7 +11,7 @@
     <groupId>com.diploma</groupId>
     <artifactId>profanity_filter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>profanity_filter</name>
     <description>profanity_filter</description>
     <properties>
