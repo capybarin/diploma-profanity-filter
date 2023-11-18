@@ -5,6 +5,7 @@ import com.diploma.profanity_filter.models.InputModel;
 import com.diploma.profanity_filter.models.OutputModel;
 import com.diploma.profanity_filter.models.StaticDataInitModel;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -15,6 +16,9 @@ import java.util.stream.Collectors;
 
 public class TextProcessor {
 
+    private int getLevenshteinDist(String inputWord, String dictWord){
+        return LevenshteinDistance.getDefaultInstance().apply(inputWord, dictWord);
+    }
     private List<String> generateWordVariations(String word){
         List<String> variations = new ArrayList<>();
         generateWordVariationsHelper(word.toLowerCase(), "", 0, variations);
@@ -22,7 +26,6 @@ public class TextProcessor {
         return variations;
     }
     private void generateWordVariationsHelper(String word, String currentWord, int index, List<String> variations){
-        System.out.println(currentWord);
         if (index == word.length()){
             if (StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(currentWord))){
                 variations.add(currentWord);
@@ -58,6 +61,19 @@ public class TextProcessor {
         List<String> variations;
         List<String> wordsToBeReplacedFoundInGlobalDict = new ArrayList<>();
         Map<Integer, String> wordPositionToMatchMap = new HashMap<>();
+
+        List<String> wordsAfterLevenshteinDist = new ArrayList<>(Arrays.stream(wordsOfText).toList());
+        for (int i = 0; i < wordsAfterLevenshteinDist.size(); i++) {
+            for (String dictWord : StaticDataInitModel.globalDictionary) {
+                int maxNumberOfWordEdits = (wordsAfterLevenshteinDist.get(i).length() > dictWord.length()) ? wordsAfterLevenshteinDist.get(i).length() / 2 : dictWord.length() / 2;
+                if (getLevenshteinDist(wordsAfterLevenshteinDist.get(i), dictWord) > maxNumberOfWordEdits) {
+                    wordsAfterLevenshteinDist.remove(i);
+                    break;
+                }
+            }
+        }
+
+        wordsOfText = wordsAfterLevenshteinDist.toArray(new String[0]);
 
         int wordIndex = -1;
 
