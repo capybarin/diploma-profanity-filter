@@ -9,7 +9,7 @@ public class ModelValidator {
     public InputModel validateInputModel (InputModel inputModel){
         if (inputModel.getText() == null || inputModel.getText().isBlank()){
             throw new ParamDoesNotExist("text");
-        } else if (inputModel.getText().length() > 160){
+        } else if (inputModel.getText().length() > 500){
             throw  new TextException("is too long. Text length should not be greater than 160 characters.");
         }
 
