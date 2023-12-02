@@ -56,7 +56,7 @@ public class TextProcessor {
     public OutputModel processTranscribeWord(InputModel inputModel){
         OutputModel outputModel = new OutputModel();
 
-        String[] wordsOfText = inputModel.getText().split("[-|\\.| |_|,|+|;|:]+"); //splitting is done no matter how many spaces are between words
+        String[] wordsOfText = inputModel.getText().split("[-|\\.| |_|,|!|?|+|;|:|\n|]+"); //splitting is done no matter how many spaces are between words
 
         List<String> variations;
         List<String> wordsToBeReplacedFoundInGlobalDict = new ArrayList<>();
