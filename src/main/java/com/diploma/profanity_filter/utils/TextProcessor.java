@@ -62,14 +62,20 @@ public class TextProcessor {
         List<String> wordsToBeReplacedFoundInGlobalDict = new ArrayList<>();
         Map<Integer, String> wordPositionToMatchMap = new HashMap<>();
 
-        List<String> wordsAfterLevenshteinDist = new ArrayList<>(Arrays.stream(wordsOfText).toList());
+        List<String> wordsAfterLevenshteinDist = new ArrayList<>(Arrays.stream(wordsOfText).map(word -> word.toLowerCase()).collect(Collectors.toList()));
+        List<String> alikeWordPairs = new ArrayList<>();
         for (int i = 0; i < wordsAfterLevenshteinDist.size(); i++) {
+            alikeWordPairs.clear();
             for (String dictWord : StaticDataInitModel.globalDictionary) {
                 int maxNumberOfWordEdits = (wordsAfterLevenshteinDist.get(i).length() > dictWord.length()) ? wordsAfterLevenshteinDist.get(i).length() / 2 : dictWord.length() / 2;
-                if (getLevenshteinDist(wordsAfterLevenshteinDist.get(i), dictWord) > maxNumberOfWordEdits) {
-                    wordsAfterLevenshteinDist.remove(i);
-                    break;
+                if (getLevenshteinDist(wordsAfterLevenshteinDist.get(i), dictWord) < maxNumberOfWordEdits) {
+                    alikeWordPairs.add(dictWord);
                 }
+            }
+
+            if (alikeWordPairs.size() == 0) {
+                wordsAfterLevenshteinDist.remove(i);
+                i--;
             }
         }
 
@@ -81,13 +87,13 @@ public class TextProcessor {
             if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase()) ||
                     StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(word.toLowerCase()))) {
 
-                wordIndex = inputModel.getText().indexOf(word, wordIndex+1);
+                wordIndex = inputModel.getText().toLowerCase().indexOf(word, wordIndex+1);
                 wordPositionToMatchMap.put(wordIndex, PluralsSingulars.singularize(word));
                 wordsToBeReplacedFoundInGlobalDict.add(word);
             } else {
                 variations = generateWordVariations(word);
                 if (!variations.isEmpty()){
-                    wordIndex = inputModel.getText().indexOf(word, wordIndex+1);
+                    wordIndex = inputModel.getText().toLowerCase().indexOf(word, wordIndex+1);
                     wordPositionToMatchMap.put(wordIndex, PluralsSingulars.singularize(variations.get(0)));
                     wordsToBeReplacedFoundInGlobalDict.add(word);
                 }
@@ -98,13 +104,13 @@ public class TextProcessor {
         for (String word : wordsToBeReplacedFoundInGlobalDict) {
             FoundProfanityDictModel foundProfanityDictModel = new FoundProfanityDictModel();
             foundProfanityDictModel.setOriginalWord(word);
-            foundProfanityDictModel.setMatch(wordPositionToMatchMap.get(resultText.indexOf(word)));
-            foundProfanityDictModel.setType(getWordTypeByDictionary(wordPositionToMatchMap.get(resultText.indexOf(word))));
-            foundProfanityDictModel.setStartPos(resultText.indexOf(word));
-            foundProfanityDictModel.setEndPos(resultText.indexOf(word)+word.length());
+            foundProfanityDictModel.setMatch(wordPositionToMatchMap.get(resultText.toString().toLowerCase().indexOf(word)));
+            foundProfanityDictModel.setType(getWordTypeByDictionary(wordPositionToMatchMap.get(resultText.toString().toLowerCase().indexOf(word))));
+            foundProfanityDictModel.setStartPos(resultText.toString().toLowerCase().indexOf(word));
+            foundProfanityDictModel.setEndPos(resultText.toString().toLowerCase().indexOf(word)+word.length()-1);
             outputModel.getFoundProfanity().add(foundProfanityDictModel);
 
-            resultText = resultText.replace(resultText.indexOf(word), resultText.indexOf(word)+word.length(), StringUtils.repeat("*", word.length()));
+            resultText = resultText.replace(resultText.toString().toLowerCase().indexOf(word), resultText.toString().toLowerCase().indexOf(word)+word.length(), StringUtils.repeat("*", word.length()));
         }
 
         String resultTextToString = resultText.toString();
