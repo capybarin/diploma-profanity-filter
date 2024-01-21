@@ -30,6 +30,14 @@ public class OutputModel {
 
     @Getter
     @Setter
+    private int foundHiddenWords = 0;
+
+    @Getter
+    @Setter
+    private int foundObviousWords = 0;
+
+    @Getter
+    @Setter
     private List<FoundProfanityDictModel> foundProfanity = new ArrayList<>();
 
     @Getter

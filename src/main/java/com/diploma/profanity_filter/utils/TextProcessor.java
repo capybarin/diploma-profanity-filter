@@ -27,8 +27,10 @@ public class TextProcessor {
     }
     private void generateWordVariationsHelper(String word, String currentWord, int index, List<String> variations){
         if (index == word.length()){
+
             if (StaticDataInitModel.globalDictionary.contains(PluralsSingulars.singularize(currentWord))){
                 variations.add(currentWord);
+                System.out.println(variations);
                 return;
             }
             return;
@@ -82,6 +84,8 @@ public class TextProcessor {
         wordsOfText = wordsAfterLevenshteinDist.toArray(new String[0]);
 
         int wordIndex = -1;
+        int foundHidden = 0;
+        int foundObvious = 0;
 
         for (String word: wordsOfText) {
             if (StaticDataInitModel.globalDictionary.contains(word.toLowerCase()) ||
@@ -90,12 +94,14 @@ public class TextProcessor {
                 wordIndex = inputModel.getText().toLowerCase().indexOf(word, wordIndex+1);
                 wordPositionToMatchMap.put(wordIndex, PluralsSingulars.singularize(word));
                 wordsToBeReplacedFoundInGlobalDict.add(word);
+                foundObvious++;
             } else {
                 variations = generateWordVariations(word);
                 if (!variations.isEmpty()){
                     wordIndex = inputModel.getText().toLowerCase().indexOf(word, wordIndex+1);
                     wordPositionToMatchMap.put(wordIndex, PluralsSingulars.singularize(variations.get(0)));
                     wordsToBeReplacedFoundInGlobalDict.add(word);
+                    foundHidden++;
                 }
             }
         }
@@ -139,6 +145,8 @@ public class TextProcessor {
         outputModel.setAdditionalDictionary(inputModel.getAdditionalDictionary());
         outputModel.setFoundProfanity(outputModel.getFoundProfanity().stream().sorted(Comparator.comparing(FoundProfanityDictModel::getStartPos)).collect(Collectors.toList()));
         outputModel.setFound(outputModel.getFoundProfanity().size());
+        outputModel.setFoundHiddenWords(foundHidden);
+        outputModel.setFoundObviousWords(foundObvious);
         outputModel.setTextCensoredSuggestion(resultTextToString);
         outputModel.setDate(LocalDateTime.now());
         outputModel.setUuid(UUID.randomUUID());
