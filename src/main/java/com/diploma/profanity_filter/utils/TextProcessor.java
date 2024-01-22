@@ -46,13 +46,14 @@ public class TextProcessor {
     }
 
     private String getWordTypeByDictionary(String word){
+        if (word == null || word.isEmpty()) return "global";
         if (StaticDataInitModel.adultDictionary.contains(PluralsSingulars.singularize(word.toLowerCase())))
             return "adult";
-        else if (StaticDataInitModel.insultDictionary.contains(PluralsSingulars.singularize(word.toLowerCase())))
+        if (StaticDataInitModel.insultDictionary.contains(PluralsSingulars.singularize(word.toLowerCase())))
             return "insult";
-        else if (StaticDataInitModel.intoleranceDictionary.contains(PluralsSingulars.singularize(word.toLowerCase())))
+        if (StaticDataInitModel.intoleranceDictionary.contains(PluralsSingulars.singularize(word.toLowerCase())))
             return "intolerance";
-        else return "global";
+        return "global";
     }
 
     public OutputModel processTranscribeWord(InputModel inputModel){
@@ -82,7 +83,6 @@ public class TextProcessor {
         }
 
         wordsOfText = wordsAfterLevenshteinDist.toArray(new String[0]);
-
         int wordIndex = -1;
         int foundHidden = 0;
         int foundObvious = 0;
@@ -105,7 +105,6 @@ public class TextProcessor {
                 }
             }
         }
-
         StringBuffer resultText = new StringBuffer(inputModel.getText());
         for (String word : wordsToBeReplacedFoundInGlobalDict) {
             FoundProfanityDictModel foundProfanityDictModel = new FoundProfanityDictModel();
